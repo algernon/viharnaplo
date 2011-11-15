@@ -6,5 +6,12 @@
                  [storm "0.5.4"]
                  [congomongo "0.1.7-SNAPSHOT"]
                  [accession "0.0.1"]
+                 [compojure "0.6.4"]
+                 [org.clojure/data.json "0.1.2"]
                  ]
-  )
+  :dev-dependencies [
+                     [lein-marginalia "0.6.0"]
+                     [lein-ring "0.4.5"]
+  ]
+  :ring {:handler viharnaplo.web/app}
+)
