@@ -63,5 +63,7 @@
                       TOPOLOGY-WORKERS 10
                       }
                      (mk-topology))
-    (Thread/sleep length)
-    (.shutdown cluster)))
+    (if (> length 0)
+      (do
+        (Thread/sleep length)
+        (.shutdown cluster)))))
