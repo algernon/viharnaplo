@@ -7,7 +7,6 @@
 
 (defspout log-spout ["host", "program"] {:params [hosts, programs] :prepare false}
   [collector]
-  (Thread/sleep (rand-int 10))
   (emit-spout! collector [(rand-nth hosts), (rand-nth programs)]))
 
 (defbolt filter-interesting ["program"] {:params [interesting]}
@@ -37,12 +36,13 @@
        )}
    {2 (bolt-spec {1 :shuffle}
                  (filter-interesting ["sshd", "kernel", "ovpn-tun0"])
-                 :p 5)
+                 :p 2)
     3 (bolt-spec {2 ["program"]}
                  (incr-in-redis "program.")
                  :p 2)
     4 (bolt-spec {1 ["host"]}
-                 (incr-in-redis "host."))
+                 (incr-in-redis "host.")
+                 :p 4)
     }
     ))
 
@@ -51,7 +51,7 @@
     (.submitTopology cluster "viharnaplo"
                      {
                       TOPOLOGY-DEBUG false
-                      TOPOLOGY-WORKERS 10
+                      TOPOLOGY-WORKERS 8
                       }
                      (mk-topology))
     (if (> length 0)
