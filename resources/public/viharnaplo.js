@@ -8,10 +8,9 @@ $(function () {
               xaxis: {
                   mode: "time",
                   timeformat: "%y-%0m-%0d %H:%M:%S",
-                  ticks: 100
               },
               grid: {
-                  hoverable: true
+                  hoverable: false,
               },
               series: {
                   shadowSize: 0,
@@ -19,9 +18,10 @@ $(function () {
                   lines: {
                       show: true,
                       fill: true,
+                      steps: false,
                   },
                   points: {
-                      show: true
+                      show: false
                   }
               },
               legend: {
