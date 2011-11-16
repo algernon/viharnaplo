@@ -8,4 +8,4 @@
 
 (defn -main []
   (redis-flush)
-  (viharnaplo/run 10000))
+  (viharnaplo/run 0))
