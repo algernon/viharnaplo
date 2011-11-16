@@ -10,13 +10,10 @@
   (Thread/sleep (rand-int 10))
   (emit-spout! collector [(rand-nth hosts), (rand-nth programs)]))
 
-(defbolt filter-interesting ["program"]
+(defbolt filter-interesting ["program"] {:params [interesting]}
   [tuple collector]
   (let [program (.getString tuple 1)]
-    (cond
-     (= program "sshd") (emit-bolt! collector [program])
-     (= program "ovpn-tun0") (emit-bolt! collector [program])
-     ))
+    (if (some #(= program %) interesting) (emit-bolt! collector [program])))
   (ack! collector tuple))
 
 (defbolt incr-in-redis ["what"] {:params [prefix]}
@@ -32,7 +29,7 @@
                   ["sshd", "ovpn-tun0", "CRON", "/USR/BIN/CRON" "postfix/master", "kernel"])
        )}
    {2 (bolt-spec {1 :shuffle}
-                 filter-interesting
+                 (filter-interesting ["sshd", "kernel", "ovpn-tun0"])
                  :p 5)
     3 (bolt-spec {2 ["program"]}
                  (incr-in-redis "program.")
