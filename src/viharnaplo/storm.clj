@@ -22,11 +22,18 @@
     (redis/with-connection *redis* (redis/incr what))
     (emit-bolt! collector [what] :anchor tuple)))
 
+
+(defn with-prio [v, n] (take n (repeat v)))
+
 (defn mk-topology []
   (topology
    {1 (spout-spec
-       (log-spout ["beren", "luthien", "treebeard", "galadriel", "bearg", "eowyn", "eresse", "hadhodrond", "durin"]
-                  ["sshd", "ovpn-tun0", "CRON", "/USR/BIN/CRON" "postfix/master", "kernel"])
+       (log-spout (flatten [(with-prio "beren" 5), (with-prio "luthien" 2),
+                            "treebeard", "galadriel", "bearg", "eowyn",
+                            "eresse", "hadhodrond", "durin"])
+                  (flatten [(with-prio "sshd" 2), "ovpn-tun0",
+                            "CRON", "/USR/BIN/CRON" "postfix/master",
+                            (with-prio "kernel" 5)]))
        )}
    {2 (bolt-spec {1 :shuffle}
                  (filter-interesting ["sshd", "kernel", "ovpn-tun0"])
