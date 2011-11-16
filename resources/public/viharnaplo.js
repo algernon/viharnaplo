@@ -72,6 +72,8 @@ $(function () {
                           });
                   
                   $.plot($("#hostmsgsec"), pdata, options);
+
+                  $("#summary span").text (host_total.all);
               }
 
               $.ajax({
