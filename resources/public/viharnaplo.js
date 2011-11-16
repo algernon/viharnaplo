@@ -1,5 +1,6 @@
 $(function () {
       var updateInterval = 100;
+      var redrawInterval = 5;
 
       function hostUpdater () {
           var totalPoints = 50;
@@ -36,6 +37,7 @@ $(function () {
               all: 0
           };
           var max = 100;
+          var cnt = 0;
 
           function host_update() {
               function host_onDataReceived(series) {
@@ -78,8 +80,12 @@ $(function () {
                               pdata.push({label: index, data: value});
                           });
 
-                  options.yaxis.max = max;                  
-                  $.plot($("#hostmsgsec"), pdata, options);
+                  options.yaxis.max = max;
+
+                  if (cnt++ > redrawInterval) {
+                      $.plot($("#hostmsgsec"), pdata, options);
+                      cnt = 0;
+                  }
 
                   $("#summary span").text (host_total.all);
               }
