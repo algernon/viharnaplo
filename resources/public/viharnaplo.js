@@ -9,6 +9,9 @@ $(function () {
                   mode: "time",
                   timeformat: "%y-%0m-%0d %H:%M:%S",
               },
+              yaxis: {
+                  max: 100,
+              },
               grid: {
                   hoverable: false,
               },
@@ -32,6 +35,7 @@ $(function () {
           var host_total = {
               all: 0
           };
+          var max = 100;
 
           function host_update() {
               function host_onDataReceived(series) {
@@ -58,6 +62,9 @@ $(function () {
 
                              var diff = hc[index] - host_total[index];
 
+                             if (diff > max)
+                                 max = diff;
+
                              data[index].push ([d, diff]);
                              host_total[index] += diff;
                          });
@@ -70,7 +77,8 @@ $(function () {
                   $.each (data, function (index, value) {
                               pdata.push({label: index, data: value});
                           });
-                  
+
+                  options.yaxis.max = max;                  
                   $.plot($("#hostmsgsec"), pdata, options);
 
                   $("#summary span").text (host_total.all);
