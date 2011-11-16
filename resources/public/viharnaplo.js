@@ -1,6 +1,8 @@
 $(function () {
+      var updateInterval = 100;
+
       function hostUpdater () {
-          var updateInterval = 100, totalPoints = 50;
+          var totalPoints = 50;
 
           var options = {
               xaxis: {
@@ -31,8 +33,8 @@ $(function () {
               all: 0
           };
 
-          function update() {
-              function onDataReceived(series) {
+          function host_update() {
+              function host_onDataReceived(series) {
                   var hc = {all: 0};
                   var received = {
                       all: 0
@@ -76,12 +78,50 @@ $(function () {
                          url: "/host.json",
                          method: 'GET',
                          dataType: 'json',
-                         success: onDataReceived,
+                         success: host_onDataReceived,
                      });
-              setTimeout(update, updateInterval);
+              setTimeout(host_update, updateInterval);
           }
 
-          update();
+          host_update();
+      }
+
+      function prgUpdater () {
+          var prgoptions = {
+              series: {
+                  pie: {
+                      show: true
+                  }
+              }
+          };
+
+          function prg_update() {
+              function prg_onDataReceived(prgseries) {
+                  var prgdata = [];
+                  var total = 0;
+                  
+                  $.each(prgseries, function(index,value) {
+                             total += value;
+                         });
+
+                  $.each(prgseries, function(index,value) {
+                             prgdata.push({label: index, data: value / total * 100.0});
+                         });
+
+
+                  console.log(prgdata);
+                  $.plot($("#prgs"), prgdata, prgoptions);
+              }
+
+              $.ajax({
+                         url: "/program.json",
+                         method: 'GET',
+                         dataType: 'json',
+                         success: prg_onDataReceived,
+                     });
+              setTimeout(prg_update, updateInterval);
+          }
+          prg_update();
       }
 
       hostUpdater();
