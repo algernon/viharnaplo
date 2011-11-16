@@ -2,29 +2,13 @@
   (:import [backtype.storm StormSubmitter LocalCluster])
   (:use [backtype.storm clojure config]
         [viharnaplo.config])
-  (:require [somnium.congomongo :as mongo]
-            [accession.core :as redis])
+  (:require [accession.core :as redis])
   (:gen-class))
 
-(defn get-logs []
-  (mongo/with-mongo *msgdb*
-    (mongo/fetch :messages)))
-
-(def log-iter (atom (get-logs)))
-
-(defn get-log! []
-  (let [old-item (first @log-iter)]
-    (swap! log-iter rest)
-    old-item))
-
-(defspout mongolog-spout ["host", "program"]
-  [conf context collector]
-  (let [logs (get-logs)]
-    (spout
-     (nextTuple []
-                (let [log (get-log!)]
-                  (emit-spout! collector [(log :HOST), (log :PROGRAM)])))
-     (ack [id]))))
+(defspout log-spout ["host", "program"] {:params [hosts, programs] :prepare false}
+  [collector]
+  (Thread/sleep (rand-int 10))
+  (emit-spout! collector [(rand-nth hosts), (rand-nth programs)]))
 
 (defbolt filter-interesting ["program"]
   [tuple collector]
@@ -43,7 +27,10 @@
 
 (defn mk-topology []
   (topology
-   {1 (spout-spec mongolog-spout)}
+   {1 (spout-spec
+       (log-spout ["beren", "luthien", "treebeard", "galadriel", "bearg", "eowyn", "eresse", "hadhodrond", "durin"]
+                  ["sshd", "ovpn-tun0", "CRON", "/USR/BIN/CRON" "postfix/master", "kernel"])
+       )}
    {2 (bolt-spec {1 :shuffle}
                  filter-interesting
                  :p 5)

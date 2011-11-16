@@ -4,10 +4,9 @@
   :dependencies [
                  [org.clojure/clojure "1.2.0"]
                  [storm "0.5.4"]
-                 [congomongo "0.1.7-SNAPSHOT"]
-                 [accession "0.0.1"]
+                 [accession "0.0.2"]
                  [compojure "0.6.4"]
-                 [org.clojure/data.json "0.1.2"]
+                 [org.clojure/data.json "0.1.3-SNAPSHOT"]
                  ]
   :dev-dependencies [
                      [lein-marginalia "0.6.0"]
