@@ -12,8 +12,7 @@
   (let [dbkeys (redis/with-connection *redis*
                  (redis/keys "*"))
         dbvals (map #(redis/with-connection *redis* (redis/get %)) dbkeys)]
-    (json/json-str (zipmap dbkeys dbvals))
-    ))
+    (json/json-str (zipmap dbkeys dbvals))))
 
 (compojure/defroutes main-routes
   (compojure/GET "/data.json" [] (redis-to-json))
