@@ -11,7 +11,7 @@ $(function () {
                   timeformat: "%y-%0m-%0d %H:%M:%S",
               },
               yaxis: {
-                  max: 100,
+                  max: 10,
               },
               grid: {
                   hoverable: false,
@@ -32,11 +32,11 @@ $(function () {
                   container: "#hostlegend",
               },
           };
-          var data = {all: []};
+          var data = { all: [] };
           var host_total = {
               all: 0
           };
-          var max = 100;
+          var max = 10;
           var cnt = 0;
 
           function host_update() {
