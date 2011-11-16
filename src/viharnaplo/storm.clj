@@ -7,6 +7,7 @@
 
 (defspout log-spout ["host", "program"] {:params [hosts, programs] :prepare false}
   [collector]
+  (Thread/sleep (rand-int 10))
   (emit-spout! collector [(rand-nth hosts), (rand-nth programs)]))
 
 (defbolt filter-interesting ["program"] {:params [interesting]}
@@ -35,14 +36,11 @@
                             (with-prio "kernel" 5)]))
        )}
    {2 (bolt-spec {1 :shuffle}
-                 (filter-interesting ["sshd", "kernel", "ovpn-tun0"])
-                 :p 2)
+                 (filter-interesting ["sshd", "kernel", "ovpn-tun0"]))
     3 (bolt-spec {2 ["program"]}
-                 (incr-in-redis "program.")
-                 :p 2)
+                 (incr-in-redis "program."))
     4 (bolt-spec {1 ["host"]}
-                 (incr-in-redis "host.")
-                 :p 4)
+                 (incr-in-redis "host."))
     }
     ))
 
