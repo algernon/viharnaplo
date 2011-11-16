@@ -1,0 +1,3 @@
+[submodule "resources/public/deck.js"]
+	path = resources/public/deck.js
+	url = git://github.com/imakewebthings/deck.js.git
