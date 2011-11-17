@@ -6,3 +6,4 @@ pom.xml
 .lein-deps-sum
 *~
 /resources/public/flot/
+/resources/public/flow.png
