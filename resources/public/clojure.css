@@ -1,0 +1,34 @@
+.clj-spec {
+  color: brown;
+}
+
+.clj-num
+{
+  color: #a04080;
+}
+
+.clj-id
+{
+  color: #008080;
+}
+
+.clj-string
+{
+  color: #808080;
+}
+
+.clj-symbol
+{
+  color: red;
+}
+
+.clj-param
+{
+  color: green;
+}
+
+pre.clojure
+{
+  font-size: 80%;
+  background: #ddd;
+}
