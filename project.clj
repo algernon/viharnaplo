@@ -1,5 +1,9 @@
 (defproject viharnaplo "0.0.0-SNAPSHOT"
-  :description "Viharnaplo"
+  :description "Viharnaplo.
+
+A simple, proof-of-concept Storm application and presentation
+showcasing how Storm can be used for scalable and distributed log
+analytics."
   :aot :all
   :dependencies [
                  [org.clojure/clojure "1.2.0"]

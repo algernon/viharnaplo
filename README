@@ -1,2 +1,0 @@
-Needs nofile ulimit raised for the redis user (> 32k), and
-redis-server restarted, and the running user needs 8k too.

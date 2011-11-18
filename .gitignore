@@ -1,6 +1,7 @@
 pom.xml
 *jar
 /lib/
+/docs/uberdoc.html
 /classes/
 .lein-failures
 .lein-deps-sum
