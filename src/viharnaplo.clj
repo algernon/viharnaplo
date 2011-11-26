@@ -8,4 +8,4 @@
 ;; Usage:
 ;; <pre><code>$ lein run -m viharnaplo</code></pre>
 (defn -main []
-  (viharnaplo/run 0))
+  (viharnaplo/run))

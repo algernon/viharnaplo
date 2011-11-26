@@ -109,12 +109,10 @@ and bolts and everything else."
 ;; which, as the name implies, will run the topology desribed above on
 ;; a local cluster.
 ;;
-;; Optionally, it can shut the cluster down after some time elapsed,
-;; instead of running it forever.
+;; It returns the running cluster object.
 (defn run
-  "Set up a local Storm cluster, and run our Viharnaplo topology
-  either indefinitelly, or for a specified amount of time."
-  [length]
+  "Set up a local Storm cluster, and run our Viharnaplo topology."
+  []
   (let [cluster (LocalCluster.)]
     (.submitTopology cluster "viharnaplo"
                      {
@@ -122,7 +120,4 @@ and bolts and everything else."
                       TOPOLOGY-WORKERS 8
                       }
                      (mk-topology))
-    (if (> length 0)
-      (do
-        (Thread/sleep length)
-        (.shutdown cluster)))))
+    cluster))
