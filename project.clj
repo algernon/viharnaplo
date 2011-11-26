@@ -8,7 +8,7 @@ analytics."
   :dependencies [
                  [org.clojure/clojure "1.2.0"]
                  [storm "0.5.4"]
-                 [accession "0.0.2"]
+                 [accession "0.0.3"]
                  [compojure "0.6.4"]
                  [org.clojure/data.json "0.1.2"]
                  ]
