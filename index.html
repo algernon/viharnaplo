@@ -2535,7 +2535,7 @@ $(document).ready(function() {
 <p>A simple, proof-of-concept Storm application and presentation
 showcasing how Storm can be used for scalable and distributed log
 analytics.</p>
-</div><div class="dependencies"><h3>dependencies</h3><table><tr><td class="dep-name">org.clojure/clojure</td><td class="dotted"><hr /></td><td class="dep-version">1.2.0</td></tr><tr><td class="dep-name">storm</td><td class="dotted"><hr /></td><td class="dep-version">0.5.4</td></tr><tr><td class="dep-name">accession</td><td class="dotted"><hr /></td><td class="dep-version">0.0.2</td></tr><tr><td class="dep-name">compojure</td><td class="dotted"><hr /></td><td class="dep-version">0.6.4</td></tr><tr><td class="dep-name">org.clojure/data.json</td><td class="dotted"><hr /></td><td class="dep-version">0.1.2</td></tr></table></div><div class="dependencies"><h3>dev dependencies</h3><table><tr><td class="dep-name">lein-marginalia</td><td class="dotted"><hr /></td><td class="dep-version">0.6.0</td></tr><tr><td class="dep-name">lein-ring</td><td class="dotted"><hr /></td><td class="dep-version">0.4.5</td></tr></table></div></td><td class="codes" style="text-align: center; vertical-align: middle;color: #666;padding-right:20px"><br /><br /><br />(this space intentionally left almost blank)</td></tr><tr><td class="docs"><div class="toc"><a name="toc"><h3>namespaces</h3></a><ul><li><a href="#viharnaplo.toc">viharnaplo.toc</a></li><li><a href="#viharnaplo.config">viharnaplo.config</a></li><li><a href="#viharnaplo.web">viharnaplo.web</a></li><li><a href="#viharnaplo.storm">viharnaplo.storm</a></li><li><a href="#redisdump">redisdump</a></li><li><a href="#viharnaplo">viharnaplo</a></li></ul></div></td><td class="codes">&nbsp;</td></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#viharnaplo.toc" name="viharnaplo.toc"><h1 class="project-name">viharnaplo.toc</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs"><h2>Viharnaplo</h2>
+</div><div class="dependencies"><h3>dependencies</h3><table><tr><td class="dep-name">org.clojure/clojure</td><td class="dotted"><hr /></td><td class="dep-version">1.2.0</td></tr><tr><td class="dep-name">storm</td><td class="dotted"><hr /></td><td class="dep-version">0.5.4</td></tr><tr><td class="dep-name">accession</td><td class="dotted"><hr /></td><td class="dep-version">0.0.3</td></tr><tr><td class="dep-name">compojure</td><td class="dotted"><hr /></td><td class="dep-version">0.6.4</td></tr><tr><td class="dep-name">org.clojure/data.json</td><td class="dotted"><hr /></td><td class="dep-version">0.1.2</td></tr></table></div><div class="dependencies"><h3>dev dependencies</h3><table><tr><td class="dep-name">lein-marginalia</td><td class="dotted"><hr /></td><td class="dep-version">0.6.0</td></tr><tr><td class="dep-name">lein-ring</td><td class="dotted"><hr /></td><td class="dep-version">0.4.5</td></tr></table></div></td><td class="codes" style="text-align: center; vertical-align: middle;color: #666;padding-right:20px"><br /><br /><br />(this space intentionally left almost blank)</td></tr><tr><td class="docs"><div class="toc"><a name="toc"><h3>namespaces</h3></a><ul><li><a href="#viharnaplo.toc">viharnaplo.toc</a></li><li><a href="#viharnaplo.config">viharnaplo.config</a></li><li><a href="#viharnaplo.web">viharnaplo.web</a></li><li><a href="#viharnaplo.storm">viharnaplo.storm</a></li><li><a href="#redisdump">redisdump</a></li><li><a href="#viharnaplo">viharnaplo</a></li></ul></div></td><td class="codes">&nbsp;</td></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#viharnaplo.toc" name="viharnaplo.toc"><h1 class="project-name">viharnaplo.toc</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs"><h2>Viharnaplo</h2>
 
 <p>"Viharnaplo" is a proof-of-concept demo, and an accompanying
 presentation.  The main idea is to use Storm to process logs,
@@ -2741,12 +2741,10 @@ without much further thought.</p>
 which, as the name implies, will run the topology desribed above on
 a local cluster.</p>
 
-<p>Optionally, it can shut the cluster down after some time elapsed,
-instead of running it forever.</p>
+<p>It returns the running cluster object.</p>
 </td><td class="codes" /><pre class="brush: clojure">(defn run
-  &quot;Set up a local Storm cluster, and run our Viharnaplo topology
-  either indefinitelly, or for a specified amount of time.&quot;
-  [length]
+  &quot;Set up a local Storm cluster, and run our Viharnaplo topology.&quot;
+  []
   (let [cluster (LocalCluster.)]
     (.submitTopology cluster &quot;viharnaplo&quot;
                      {
@@ -2754,10 +2752,7 @@ instead of running it forever.</p>
                       TOPOLOGY-WORKERS 8
                       }
                      (mk-topology))
-    (if (&gt; length 0)
-      (do
-        (Thread/sleep length)
-        (.shutdown cluster)))))</pre></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#redisdump" name="redisdump"><h1 class="project-name">redisdump</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs"><p>A simple script to dump the contents of a redis database, which is
+    cluster))</pre></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#redisdump" name="redisdump"><h1 class="project-name">redisdump</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs"><p>A simple script to dump the contents of a redis database, which is
 being filled by the Viharnaplo Storm application.</p>
 </td><td class="codes" /><pre class="brush: clojure">(ns redisdump
   (:use [viharnaplo.config])
@@ -2779,11 +2774,21 @@ iterate over them, get their value too, print both.</p>
   (redis-dump &quot;host&quot;))</pre></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#viharnaplo" name="viharnaplo"><h1 class="project-name">viharnaplo</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs"><p>The main entry point of the Viharnaplo Storm application.</p>
 </td><td class="codes" /><pre class="brush: clojure">(ns viharnaplo
   (:use [viharnaplo.config])
-  (:require [viharnaplo.storm :as viharnaplo]))</pre></tr><tr><td class="docs"><p>The main entry point, which just runs the LocalCluster forever.</p>
+  (:require [viharnaplo.storm :as viharnaplo]))</pre></tr><tr><td class="docs"><p>The main entry point, which just runs the LocalCluster forever,
+unless an argument is given. In that case, it runs the cluster for
+the specified amount of seconds.</p>
 
 <p>Usage:</p>
 
 <pre><code>$ lein run -m viharnaplo</code></pre>
-</td><td class="codes" /><pre class="brush: clojure">(defn -main []
-  (viharnaplo/run 0))</pre></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr></table><div class="footer">Generated by <a href="https://github.com/fogus/marginalia">Marginalia</a>.&nbsp;&nbsp;Syntax highlighting provided by Alex Gorbatchev's <a href="http://alexgorbatchev.com/SyntaxHighlighter/">SyntaxHighlighter</a><div id="floating-toc"><ul><li class="floating-toc-li" id="floating-toc_viharnaplo.toc">viharnaplo.toc</li><li class="floating-toc-li" id="floating-toc_viharnaplo.config">viharnaplo.config</li><li class="floating-toc-li" id="floating-toc_viharnaplo.web">viharnaplo.web</li><li class="floating-toc-li" id="floating-toc_viharnaplo.storm">viharnaplo.storm</li><li class="floating-toc-li" id="floating-toc_redisdump">redisdump</li><li class="floating-toc-li" id="floating-toc_viharnaplo">viharnaplo</li></ul></div></div><script type="text/javascript">SyntaxHighlighter.defaults['gutter'] = false;
+
+<p>Or</p>
+
+<pre><code>$ lein run -m viharnaplo 10</code></pre>
+</td><td class="codes" /><pre class="brush: clojure">(defn -main [&amp; args]
+  (let [cluster (viharnaplo/run)]
+    (if (not (empty? args))
+      (do
+        (Thread/sleep (* 1000 (Integer/parseInt (first args))))
+        (.shutdown cluster)))))</pre></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr></table><div class="footer">Generated by <a href="https://github.com/fogus/marginalia">Marginalia</a>.&nbsp;&nbsp;Syntax highlighting provided by Alex Gorbatchev's <a href="http://alexgorbatchev.com/SyntaxHighlighter/">SyntaxHighlighter</a><div id="floating-toc"><ul><li class="floating-toc-li" id="floating-toc_viharnaplo.toc">viharnaplo.toc</li><li class="floating-toc-li" id="floating-toc_viharnaplo.config">viharnaplo.config</li><li class="floating-toc-li" id="floating-toc_viharnaplo.web">viharnaplo.web</li><li class="floating-toc-li" id="floating-toc_viharnaplo.storm">viharnaplo.storm</li><li class="floating-toc-li" id="floating-toc_redisdump">redisdump</li><li class="floating-toc-li" id="floating-toc_viharnaplo">viharnaplo</li></ul></div></div><script type="text/javascript">SyntaxHighlighter.defaults['gutter'] = false;
        SyntaxHighlighter.all()</script></body></html>
